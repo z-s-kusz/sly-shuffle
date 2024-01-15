@@ -19,3 +19,13 @@ Builds the app for production to the `dist` folder.<br>
 It correctly bundles Solid in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.<br>
+
+## Testing
+
+Uses vitest.
+Tests are configured to run in node environment (I won't be doing any component testing, just unit testing a few functions).
+To run tests once:
+
+```
+npm run test
+```

@@ -1,11 +1,14 @@
 import { Show } from "solid-js";
 
 export function StandardCard(props) {
-    // chanceLabel is not reactive but doesn't need to be
-    // would need to access props.id in the jsx if we needed true reactivity (which we don't here)
-    const chanceLabel = () => {
-        return `chance-${props.id}`;
+    const weightLabel = () => {
+        return `weight-${props.id}`;
     };
+    const chances = () => {
+        // TODO fix rounding - show decimals after
+        // example issue weights I've seen: 1, 1, 4, percentages shown add to 101%
+        return `${Math.round(props.weight / props.totalWeight * 100)} %`;
+    }
 
     return (
         <div class="m-2 flex items-center">
@@ -14,10 +17,11 @@ export function StandardCard(props) {
                 class="input input-bordered input-lg w-full max-w-xs" />
 
             <Show when={props.showDealerControl}>
-                <label for={chanceLabel()} class="mx-2">Chance:</label>
-                <input type="text" name={chanceLabel()}
-                    value={props.chance} onInput={props.onchanceInput}
+                <label for={weightLabel()} class="mx-2">Weight:</label>
+                <input type="number" name={weightLabel()} min="0" max="10000"
+                    value={props.weight} onInput={props.onWeightInput}
                     class="input w-full max-w-xs" />
+                <span>{chances()}</span>
             </Show>
         </div>
     );
