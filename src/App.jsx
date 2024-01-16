@@ -8,9 +8,8 @@ import { maskPositiveNumberInput } from './utility/maskPositiveNumberInput';
 
 function App() {
   const [showDealerControl, setShowDealerControl] = createSignal(true);
-  const [inputs, setInputs] = createStore([
-    { id: uuidv4(), name: '', weight: 1, pickMe: false }
-  ]);
+  const [newInputName, setNewInputName] = createSignal('');
+  const [inputs, setInputs] = createStore([]);
 
   const totalWeight = createMemo(() => {
 	return inputs.reduce((prev, current) => {
@@ -39,9 +38,12 @@ function App() {
       value
     );
   };
-  const addInput = () => {
-    const newInput = { id: uuidv4(), name: '', weight: 1, pickMe: false };
+  const addInput = (e) => {
+	e.preventDefault();
+
+    const newInput = { id: uuidv4(), name: newInputName(), weight: 1, pickMe: false };
     setInputs([...inputs, newInput]);
+	setNewInputName('');
   };
   const setPickMeOption = (id, event) => {
 	if (event.target.checked) {
@@ -67,12 +69,17 @@ function App() {
 
   return (
     <>
-		<h1 class="text-2xl mb-8 text-center">{showDealerControl() ? '(Not So) ' : ''}Random Picker{totalWeight()}</h1>
+		<h1 class="text-2xl mb-8 text-center">{showDealerControl() ? '(Not So) ' : ''}Random Picker</h1>
 
-		<div>
-			<button class="btn" onClick={addInput}>Add Input</button>
-			<button class="btn" onClick={toggleDealerControl}>{showDealerControl() ? 'Hide' : 'Show'} Dealer Controls</button>
-		</div>
+		<form onSubmit={addInput}>
+			<input type="text" class="input input-bordered input-lg mx-2 w-full max-w-xs"
+				placeholder='Add Input Here...'
+				onInput={(e) => setNewInputName(e.target.value)} value={newInputName()} />
+			<button class="btn" type="submit" onClick={addInput}>Add Input</button>
+			<button class="btn" type="button" onClick={toggleDealerControl}>
+				{showDealerControl() ? 'Hide' : 'Show'} Dealer Controls
+			</button>
+		</form>
 
 		<section class="flex flex-col">
 			<For each={inputs}>

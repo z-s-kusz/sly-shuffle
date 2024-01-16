@@ -6,11 +6,9 @@ export function StandardCard(props) {
     };
     const chances = () => {
         if (props.pickMeIsActive) {
-            return `${props.pickMe ? 100 : 0} %`;
+            return `${props.pickMe ? 100 : 0}%`;
         }
-        // TODO fix rounding - show decimals after
-        // example issue weights I've seen: 1, 1, 4, percentages shown add to 101%
-        return `${Math.round(props.weight / props.totalWeight * 100)} %`;
+        return `${parseFloat(props.weight / props.totalWeight * 100).toFixed(2)}%`;
     }
 
     return (
@@ -23,10 +21,10 @@ export function StandardCard(props) {
                 <label for={weightLabel()} class="mx-2">Weight:</label>
                 <input type="number" name={weightLabel()} min="0" max="10000"
                     value={props.weight} onInput={props.onWeightInput}
-                    class="input w-full max-w-xs" />
-                <input type="checkbox" class="checkbox checkbox-secondary"
+                    class="input" />
+                <input type="checkbox" class="checkbox checkbox-secondary mx-2"
                     onChange={props.setPickMeOption} checked={props.pickMe} />
-                <span>{chances()}</span>
+                <span>Chance: {chances()}</span>
             </Show>
         </div>
     );
