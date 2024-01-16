@@ -18,6 +18,10 @@ function App() {
 	}, 0);
   });
 
+  const pickMeIsActive = createMemo(() => {
+	return !!inputs.find((input) => input.pickMe);
+  });
+
   const setName = (id, event) => {
     setInputs(
       (input) => input.id === id,
@@ -39,6 +43,23 @@ function App() {
     const newInput = { id: uuidv4(), name: '', weight: 1, pickMe: false };
     setInputs([...inputs, newInput]);
   };
+  const setPickMeOption = (id, event) => {
+	if (event.target.checked) {
+		// todo find a way to affect all elements in array without "(input) => input" as the first argument
+		setInputs((input) => input, 'pickMe', false);
+		setInputs(
+			(input) => input.id === id,
+			'pickMe',
+			true
+		);
+	} else {
+		setInputs(
+			(input) => input.id === id,
+			'pickMe',
+			false
+		);
+	}
+  };
 
   const toggleDealerControl = () => {
     setShowDealerControl((prev) => !prev);
@@ -58,8 +79,9 @@ function App() {
 				{(input) => {
 					return <StandardCard onNameInput={[setName, input.id]} name={input.name}
 						onWeightInput={[setWeight, input.id]} weight={input.weight}
-						showDealerControl={showDealerControl()} id={input.id}
-						totalWeight={totalWeight()} />
+						showDealerControl={showDealerControl()}
+						setPickMeOption={[setPickMeOption, input.id]} pickMe={input.pickMe}
+						id={input.id} totalWeight={totalWeight()} pickMeIsActive={pickMeIsActive()} />
 				}}
 			</For>
 		</section>
