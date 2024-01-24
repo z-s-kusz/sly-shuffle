@@ -30,13 +30,17 @@ export function Wheel(props) {
 
     return (
         <>
-            <ul class="flex flex-row border-2 rounded-md">
-                <For each={wheelList()}>
-                    {(input) => {
-                        return <li class={input.className}>{input.name}</li>
-                    }}
-                </For>
-            </ul>
+            <div class="flex justify-center center-wheel">
+                <div class="border-2 rounded-md container">
+                    <ul class="flex item-group">
+                        <For each={wheelList()}>
+                            {(input) => {
+                                return <li class={input.className}>{input.name}</li>
+                            }}
+                        </For>
+                    </ul>
+                </div>
+            </div>
 {/* TODO disable when there are 0 options (allow 1 even though its dumb) */}
             <button class="btn btn-primary" onClick={spin}>Spin</button>
 

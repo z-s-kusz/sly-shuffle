@@ -1,3 +1,17 @@
+.center-wheel {
+
+}
+.container {
+    flex: 0 1 500px;
+    position: relative;
+    min-height: 100px;
+}
+.item-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 .item {
 
 }
